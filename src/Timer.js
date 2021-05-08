@@ -6,6 +6,7 @@ import { group } from 'd3-array'
 const pinclashEvent = 'avengers'
 export default function Timer(props) {
   const { user } = props
+  console.log(user)
   const [challenges, setChallenges] = useState([])
   useEffect(() => {
     const fetch = async () => {

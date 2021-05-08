@@ -12,6 +12,7 @@ export default async function initChallenges() {
     })
   } catch (error) {
     console.log(error)
+
   }
 
 }
