@@ -5,7 +5,7 @@ import { firebase, firebaseui } from './firebase'
 import './App.scss';
 import { useEffect, useState } from 'react';
 
-import Timer from './Timer'
+import PinclashTimer from './PinclashTimer'
 const signIn = () => {
     const ui = new firebaseui.auth.AuthUI(firebase.auth())
     console.log(ui)
@@ -47,7 +47,7 @@ function App() {
       {
         user ?
         <div>
-          <Timer user={user} />
+          <PinclashTimer user={user} />
           <button onClick={logout}>log out</button>
         </div>
         : <div id="firebaseui-auth-container"></div>
