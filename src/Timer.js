@@ -1,18 +1,17 @@
 
 import { useEffect, useState } from 'react'
-
+import { db } from './firebase'
+import { pinclashEvent } from './PinclashTimer'
 export default function Timer(props) {
   const { user, challenge } = props
 
   const [running, setRunning] = useState(false)
 
   const now = Date.now()
-  // const [startTime, setStartTime] = useState(now)
-  // const [currentTime, setCurrentTime] = useState(now)
-  // const [timeAlreadyOnTheClock, setTimeAlreadyOnTheClock] = useState(0)
 
   const [lastTime, setLastTime] = useState(now)
   const [elapsedTime, setElapsedTime] = useState(0)
+  const [submitted, setSubmitted] = useState(false)
   useEffect(() => {
     let raf = null
     const update = () => {
@@ -31,24 +30,27 @@ export default function Timer(props) {
   }, [running, lastTime])
 
   const toggle = () => {
-    const newRunningState = !running
-    // const now = Date.now()
-    // if (newRunningState) {
-    //   setStartTime(now)
-    // } else {
-    //   setTimeAlreadyOnTheClock(c => c + (now - startTime))
-    // }
-    setRunning(newRunningState)
-
+    setRunning(!running)
+    setSubmitted(false)
   }
 
   const reset = () => {
     setElapsedTime(0)
   }
 
-  const submit = () => {
-
+  const submit = async () => {
+    setSubmitted(true)
+    try {
+      await db.collection('userData').doc(user.uid).collection('times').doc(`${pinclashEvent}-${challenge.id}`).collection('times').add({
+        timestamp: Date.now(),
+        time: elapsedTime
+      })
+      reset()
+    } catch (error) {
+      console.log(error)
+    }
   }
+
   const delta = elapsedTime / 1000
   const ms = delta - Math.floor(delta)
   let s = delta - ms
@@ -59,8 +61,8 @@ export default function Timer(props) {
   return (
     <div>
       <button onClick={toggle}>{running ? 'stop' : 'start'}</button>{' '}
-      <button onClick={reset}>reset</button>
-      <button disabled={running} onClick={submit}>reset</button>
+      <button onClick={reset}>reset</button>{' '}
+      <button disabled={running || submitted || elapsedTime === 0} onClick={submit}>submit</button>
 
       <div>
         {delta}<br />
