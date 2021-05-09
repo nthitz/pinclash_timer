@@ -3,6 +3,7 @@
 // import { pinclashEvent } from './PinclashTimer'
 
 import Notes from './Notes'
+import Timer from './Timer'
 export default function Challenge(props) {
   const { challenge } = props
   return (
@@ -11,6 +12,7 @@ export default function Challenge(props) {
         {challenge.challenge}
       </div>
       <Notes {...props} />
+      <Timer {...props} />
     </div>
   )
 }
