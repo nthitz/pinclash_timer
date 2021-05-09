@@ -4,6 +4,7 @@
 
 import Notes from './Notes'
 import Timer from './Timer'
+import Times from './Times'
 export default function Challenge(props) {
   const { challenge } = props
   return (
@@ -13,6 +14,7 @@ export default function Challenge(props) {
       </div>
       <Notes {...props} />
       <Timer {...props} />
+      <Times {...props} />
     </div>
   )
 }
