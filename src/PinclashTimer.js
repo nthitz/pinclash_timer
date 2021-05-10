@@ -34,7 +34,7 @@ export default function PinclashTimer(props) {
   }, [])
 
   return (
-    <div>
+    <div className='text-lg text-center mx-auto container'>
       <ChallengeGenerator setSelectedChallengeId={setSelectedChallengeId} challenges={challenges} />
       {selectedChallengeId !== null ?
         <Challenge user={user} key={selectedChallengeId} challenge={challenges.find(d => d.id === selectedChallengeId)} />

@@ -59,6 +59,7 @@ export default function ChallengeGenerator(props) {
       .onComplete(() => {
         setSelectedChallengeId(shuffledChallenges[random % shuffledChallenges.length].id)
         setSpinning(false)
+        setGeneratorChallengeIndex(null)
       })
       .delay(2000)
       .start()
@@ -67,12 +68,12 @@ export default function ChallengeGenerator(props) {
     }
 
   }
-  let selectedChallengeInfo = <div>get 'er spinning</div>
+  let selectedChallengeInfo = <div>&nbsp;</div>
   if (generatorChallengeIndex !== null) {
     const selectedChallenge = shuffledChallengesToConsider[generatorChallengeIndex]
     const { tier, challenge } = selectedChallenge
     selectedChallengeInfo = (
-      <div>
+      <div className='m-2'>
         Tier {tier}: {challenge}
       </div>
     )
@@ -92,21 +93,22 @@ export default function ChallengeGenerator(props) {
   }
 
   return (
-    <div>
-      <div>
-        Next up
+    <div className='flex-auto m-2'>
+      <div className='m-2'>
+        Challenge Generator
       </div>
-      <div>
+      <div className='m-2'>
         Tiers:{' '}
-        {availableTiers.map(tier =>
-          <span
-            key={tier}
-            className={classNames('cursor-pointer p-1', {'opacity-40': !selectedTiers.includes(tier)})}
-            onClick={toggleTier(tier)}
-          >
-            {emojis[tier]}
-          </span>
-        )}
+        {availableTiers.map(tier => {
+          const selected = selectedTiers.includes(tier)
+          return <span
+              key={tier}
+              className={classNames('cursor-pointer p-2 m-1 rounded-md', {'bg-green-200': selected, 'opacity-40': !selected })}
+              onClick={toggleTier(tier)}
+            >
+              {emojis[tier]}
+            </span>
+        })}
       </div>
 
       {selectedChallengeInfo}

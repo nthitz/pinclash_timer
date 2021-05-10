@@ -46,7 +46,7 @@ function App() {
     <div className="App">
       {
         user ?
-        <div>
+        <div className='text-center'>
           <PinclashTimer user={user} />
           <button onClick={logout}>log out</button>
         </div>

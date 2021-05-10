@@ -26,8 +26,8 @@ export default function Timer(props) {
       setLastTime(now)
 
     }
-    update()
-    return () => {
+    raf = requestAnimationFrame(update)
+    return function cleanup() {
       cancelAnimationFrame(raf)
     }
   }, [running, lastTime])
@@ -62,12 +62,12 @@ export default function Timer(props) {
 
 
   return (
-    <div>
+    <div className='m-1'>
       <button onClick={toggle}>{running ? 'stop' : 'start'}</button>{' '}
       <button onClick={reset}>reset</button>{' '}
       <button disabled={running || submitted || elapsedTime === 0} onClick={submit}>submit</button>
 
-      <div>
+      <div className='font-bold m-1 text-4xl'>
         {m ? `${m}:` : ''}{`${`${s}`.padStart(m ? 2 : 1, '0')}`}.{Math.floor(ms * 10)}
       </div>
     </div>
