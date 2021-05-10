@@ -10,7 +10,7 @@ export default function Challenge(props) {
   return (
     <div>
       <div>
-        {challenge.challenge}
+        Tier {challenge.tier}: {challenge.challenge}
       </div>
       <Notes {...props} />
       <Timer {...props} />

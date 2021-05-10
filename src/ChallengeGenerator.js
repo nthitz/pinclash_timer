@@ -1,20 +1,27 @@
 import { useEffect, useRef, useState } from "react"
 import TWEEN from '@tweenjs/tween.js'
 import soundEffect from './media/challengeGenerator.mp3'
+import { shuffle } from 'd3-array'
 export default function ChallengeGenerator(props) {
   const { challenges, setSelectedChallengeId } = props
 
   const [generatorChallengeIndex, setGeneratorChallengeIndex] = useState(null)
   const soundEffectRef = useRef(null)
+
   const challengesToConsider = challenges.filter(d => true)
 
+  const [shuffledChallengesToConsider, setShuffledChallengesToConsider] = useState([])
+
   const spin = () => {
-    const random = Math.floor((Math.random() * 4 + 8) * challengesToConsider.length)
+    const shuffledChallenges = shuffle([...challengesToConsider])
+    setShuffledChallengesToConsider(shuffledChallenges)
+
+    const random = Math.floor((Math.random() * 4 + 8) * shuffledChallenges.length)
     new TWEEN.Tween({ index: 0 }).to({index: random}, 7.5 * 1000)
       .easing(TWEEN.Easing.Quintic.InOut)
-      .onUpdate(({index}) => setGeneratorChallengeIndex(Math.round(index) % challengesToConsider.length))
+      .onUpdate(({index}) => setGeneratorChallengeIndex(Math.round(index) % shuffledChallenges.length))
       .onComplete(() => {
-        setSelectedChallengeId(challengesToConsider[random % challengesToConsider.length].id)
+        setSelectedChallengeId(shuffledChallenges[random % shuffledChallenges.length].id)
       })
       .delay(2000)
       .start()
@@ -23,9 +30,9 @@ export default function ChallengeGenerator(props) {
     }
 
   }
-  let selectedChallengeInfo = null
+  let selectedChallengeInfo = <div>get 'er spinning</div>
   if (generatorChallengeIndex !== null) {
-    const selectedChallenge = challengesToConsider[generatorChallengeIndex]
+    const selectedChallenge = shuffledChallengesToConsider[generatorChallengeIndex]
     const { tier, challenge } = selectedChallenge
     selectedChallengeInfo = (
       <div>
