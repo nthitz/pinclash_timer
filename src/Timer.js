@@ -2,6 +2,8 @@
 import { useEffect, useState } from 'react'
 import { db } from './firebase'
 import { pinclashEvent } from './PinclashTimer'
+import TWEEN from '@tweenjs/tween.js'
+
 export default function Timer(props) {
   const { user, challenge } = props
 
@@ -16,6 +18,7 @@ export default function Timer(props) {
     let raf = null
     const update = () => {
       raf = requestAnimationFrame(update)
+      TWEEN.update()
       const now = Date.now()
       if (running) {
         setElapsedTime(t => t + (now - lastTime))

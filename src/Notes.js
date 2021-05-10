@@ -8,7 +8,7 @@ export default function Challenge(props) {
     const fetch = async () => {
       const data = await db.collection('userData').doc(user.uid).collection('notes').doc(`${pinclashEvent}-${challenge.id}`).get()
       const response = data.data()
-      setLocalNotes(response ? response.notes : '')
+      setLocalNotes(response && response.notes ? response.notes : '')
 
     }
     fetch()
