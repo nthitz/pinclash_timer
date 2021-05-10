@@ -6,6 +6,9 @@ import './App.scss';
 import { useEffect, useState } from 'react';
 
 import PinclashTimer from './PinclashTimer'
+import pinclashLogo from './media/PinClashLarge.png'
+import eventLogo from './media/AIQ_logo.png'
+
 const signIn = () => {
     const ui = new firebaseui.auth.AuthUI(firebase.auth())
     console.log(ui)
@@ -43,10 +46,14 @@ function App() {
     }
   }
   return (
-    <div className="App">
+    <div className="App text-center">
+      <div className='flex justify-center items-center'>
+        <img src={pinclashLogo} className='h-40' />
+        <img src={eventLogo} className='h-28' />
+      </div>
       {
         user ?
-        <div className='text-center'>
+        <div>
           <PinclashTimer user={user} />
           <button onClick={logout}>log out</button>
         </div>
