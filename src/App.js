@@ -48,8 +48,8 @@ function App() {
   return (
     <div className="App text-center">
       <div className='flex justify-center items-center'>
-        <img src={pinclashLogo} className='h-40' />
-        <img src={eventLogo} className='h-28' />
+        <img src={pinclashLogo} alt='Pinclash' className='h-40' />
+        <img src={eventLogo} className='h-28' alt='Avengers' />
       </div>
       {
         user ?
