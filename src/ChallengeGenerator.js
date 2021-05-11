@@ -3,6 +3,8 @@ import TWEEN from '@tweenjs/tween.js'
 import soundEffect from './media/challengeGenerator.mp3'
 import { shuffle } from 'd3-array'
 import classNames from "classnames"
+import { RefreshIcon } from '@heroicons/react/solid'
+
 const emojis = {
   1: '1️⃣',
   2: '2️⃣',
@@ -28,6 +30,8 @@ export default function ChallengeGenerator(props) {
 
   const [spinning, setSpinning] = useState(false)
 
+  const [idsPicked, setIdsPicked] = useState([])
+  const [respin, setRespin] = useState(false)
   useEffect(() => {
     const tiers = Object.keys(
       challenges.reduce(
@@ -41,11 +45,18 @@ export default function ChallengeGenerator(props) {
     setSelectedTiers(tiers)
     setAvailableTiers(tiers)
   }, [challenges])
-
+  const challengesAtSelectedTiers = challenges.filter(challenge => selectedTiers.includes(challenge.tier))
+  const challengesToConsider = challengesAtSelectedTiers.filter(challenge => !idsPicked.includes(challenge.id))
   const spin = () => {
 
-    const challengesToConsider = challenges.filter(challenge => selectedTiers.includes(challenge.tier))
+    if (challengesAtSelectedTiers.length === 0) {
+      return
+    }
     if (challengesToConsider.length === 0) {
+      if (!respin) {
+        setIdsPicked(ids => [...ids].filter(challengeId => !challengesAtSelectedTiers.find(d => d.id === challengeId)))
+        setRespin(true)
+      }
       return
     }
     const shuffledChallenges = shuffle([...challengesToConsider])
@@ -53,20 +64,30 @@ export default function ChallengeGenerator(props) {
     setShuffledChallengesToConsider(shuffledChallenges)
     setSpinning(true)
     const random = Math.floor((Math.random() * 4 + 8) * shuffledChallenges.length)
-    new TWEEN.Tween({ index: 0 }).to({index: random}, 7.5 * 1000)
+    const oneLeft = shuffledChallenges.length === 1
+    const duration = oneLeft ? 1 : 7.5 * 1000
+    const delay = oneLeft ? 1 : 2000
+
+    new TWEEN.Tween({ index: 0 }).to({index: random}, duration)
       .easing(TWEEN.Easing.Quintic.InOut)
       .onUpdate(({index}) => setGeneratorChallengeIndex(Math.round(index) % shuffledChallenges.length))
       .onComplete(() => {
-        setSelectedChallengeId(shuffledChallenges[random % shuffledChallenges.length].id)
+        const id = shuffledChallenges[random % shuffledChallenges.length].id
+        setSelectedChallengeId(id)
         setSpinning(false)
         setGeneratorChallengeIndex(null)
+        setIdsPicked(ids => [...ids, id])
       })
-      .delay(2000)
+      .delay(delay)
       .start()
-    if (soundEffectRef.current) {
+    if (soundEffectRef.current && !oneLeft) {
       soundEffectRef.current.play()
     }
 
+  }
+  if (respin) {
+    setRespin(false)
+    spin()
   }
   let selectedChallengeInfo = <div>&nbsp;</div>
   if (generatorChallengeIndex !== null) {
@@ -92,6 +113,10 @@ export default function ChallengeGenerator(props) {
     })
   }
 
+  const resetPicked = () => {
+    setIdsPicked([])
+  }
+
   return (
     <div className='flex-auto m-2'>
       <div className='m-2'>
@@ -113,6 +138,10 @@ export default function ChallengeGenerator(props) {
 
       {selectedChallengeInfo}
       <button onClick={spin} disabled={spinning}>spin</button>
+      <div>
+        Remaining: {challengesToConsider.length}
+        <RefreshIcon onClick={resetPicked} className="inline-block cursor-pointer h-5 w-5 text-black-500 hover:text-red-500"/>
+      </div>
       <audio src={soundEffect} ref={soundEffectRef}/>
 
     </div>
