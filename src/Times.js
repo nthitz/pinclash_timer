@@ -23,7 +23,6 @@ export default function Times(props) {
             id: doc.id,
           })
         })
-        console.log(times)
         setTimes(times)
       })
   }, [challenge.id, user.uid])

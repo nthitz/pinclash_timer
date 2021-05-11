@@ -24,7 +24,6 @@ export default function PinclashTimer(props) {
       data.sort((a, b) => {
         return a.tier - b.tier
       })
-      console.log(data)
       setChallenges(data)
       setSelectedChallengeId(data[0].id)
 
@@ -37,7 +36,7 @@ export default function PinclashTimer(props) {
     <div className='text-lg text-center mx-auto container'>
       <ChallengeGenerator setSelectedChallengeId={setSelectedChallengeId} challenges={challenges} />
       {selectedChallengeId !== null ?
-        <Challenge user={user} key={selectedChallengeId} challenge={challenges.find(d => d.id === selectedChallengeId)} />
+        <Challenge user={user} challenge={challenges.find(d => d.id === selectedChallengeId)} />
         : null
       }
       <ChallengeList challenges={challenges} selectedChallengeId={selectedChallengeId} setSelectedChallengeId={setSelectedChallengeId} />

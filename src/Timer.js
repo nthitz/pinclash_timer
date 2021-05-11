@@ -14,23 +14,6 @@ export default function Timer(props) {
   const [lastTime, setLastTime] = useState(now)
   const [elapsedTime, setElapsedTime] = useState(0)
   const [submitted, setSubmitted] = useState(false)
-  // useEffect(() => {
-  //   let raf = null
-  //   const update = () => {
-  //     raf = requestAnimationFrame(update)
-  //     TWEEN.update()
-  //     const now = Date.now()
-  //     if (running) {
-  //       setElapsedTime(t => t + (now - lastTime))
-  //     }
-  //     setLastTime(now)
-
-  //   }
-  //   raf = requestAnimationFrame(update)
-  //   return function cleanup() {
-  //     cancelAnimationFrame(raf)
-  //   }
-  // }, [running, lastTime])
 
   useAnimationFrame(() => {
     TWEEN.update()
