@@ -128,7 +128,7 @@ export default function ChallengeGenerator(props) {
           const selected = selectedTiers.includes(tier)
           return <span
               key={tier}
-              className={classNames('cursor-pointer p-2 m-1 rounded-md', {'bg-green-200': selected, 'opacity-40': !selected })}
+              className={classNames('cursor-pointer p-2 m-1 rounded-md', {'bg-green-800': selected, 'opacity-40': !selected })}
               onClick={toggleTier(tier)}
             >
               {emojis[tier]}

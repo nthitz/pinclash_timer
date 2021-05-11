@@ -23,7 +23,7 @@ export default function ChallengeList(props) {
             <div key={tier}>
               <h3 className='font-bold'>Tier {tier}</h3>
               {tierValues.map((challenge, challengeIndex) => {
-                return  <div onClick={() => setSelectedChallengeId(challenge.id)} key={challenge.id} className={classnames({ 'bg-green-200': challenge.id === selectedChallengeId })}>
+                return  <div onClick={() => setSelectedChallengeId(challenge.id)} key={challenge.id} className={classnames({ 'bg-green-800': challenge.id === selectedChallengeId })}>
                   {challenge.challenge}
                 </div>
               })}
