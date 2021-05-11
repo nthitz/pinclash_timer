@@ -1,6 +1,11 @@
-body, textarea {
+body {
   background-color: #0c0c0c;
   color: #f3f3f3;
+}
+
+textarea {
+  color: #f3f3f3;
+  background-color: transparent;
 }
 
 button {
