@@ -56,7 +56,6 @@ export default function ChallengeGenerator(props) {
     const oneLeft = shuffledChallenges.length === 1
     const duration = oneLeft ? 1 : 7.5 * 1000
     const delay = oneLeft ? 1 : 2000
-    setSelectedChallengeId(null)
     new TWEEN.Tween({ index: 0 }).to({index: random}, duration)
       .easing(TWEEN.Easing.Quintic.InOut)
       .onUpdate(({index}) => setGeneratorChallengeIndex(Math.round(index) % shuffledChallenges.length))
@@ -64,7 +63,6 @@ export default function ChallengeGenerator(props) {
         const id = shuffledChallenges[random % shuffledChallenges.length].id
         setSelectedChallengeId(id)
         setSpinning(false)
-        setGeneratorChallengeIndex(null)
         setIdsPicked(ids => [...ids, id])
       })
       .delay(delay)
@@ -83,7 +81,7 @@ export default function ChallengeGenerator(props) {
     const selectedChallenge = shuffledChallengesToConsider[generatorChallengeIndex]
     const { tier, challenge } = selectedChallenge
     selectedChallengeInfo = (
-      <div className='m-2 truncate'>
+      <div className='p-2 left-0 truncate w-full bg-black absolute'>
         Tier {tier}: {challenge}
       </div>
     )
@@ -107,7 +105,7 @@ export default function ChallengeGenerator(props) {
   }
 
   return (
-    <div className='flex-auto m-2'>
+    <div className='flex-auto p-2'>
       <div className='m-2'>
         Challenge Generator
       </div>
@@ -125,7 +123,7 @@ export default function ChallengeGenerator(props) {
         })}
       </div>
 
-      <div className='flex justify-evenly items-center'>
+      <div className='flex justify-evenly items-center relative'>
         <button onClick={spin} disabled={spinning}>spin</button>
         <div>
           Remaining: {challengesToConsider.length}
