@@ -3,6 +3,8 @@ import { db } from './firebase'
 import { pinclashEvent } from './PinclashTimer'
 import { format, addMilliseconds } from 'date-fns'
 import { TrashIcon } from '@heroicons/react/solid'
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 
 const cols = [
   { label: 'Time', field: 'timestamp', sort: (a, b) => b.timestamp - a.timestamp, format: v => format(v, 'Pp') },
@@ -30,20 +32,32 @@ export default function Times(props) {
   sorted.sort(cols[selectedSortColumnIndex].sort)
 
   const trash = (time) => async () => {
-    const sure = window.confirm('Are you sure you want to delete that time?')
-    if (!sure) {
-      return
+    const deleteConfirmed = async () => {
+      try {
+        await db.collection('userData').doc(user.uid).collection('times').doc(`${pinclashEvent}-${challenge.id}`).collection('times').doc(time.id).delete()
+      } catch (error) {
+        console.log(error)
+      }
     }
-    try {
-      await db.collection('userData').doc(user.uid).collection('times').doc(`${pinclashEvent}-${challenge.id}`).collection('times').doc(time.id).delete()
-    } catch (error) {
-      console.log(error)
-    }
+    confirmAlert({
+      title: 'Are you sure you want to delete that time?',
+      // message: 'Are you sure to do this.',
+      buttons: [
+        {
+          label: 'Delete',
+          onClick: deleteConfirmed
+        },
+        {
+          label: 'Keep',
+          onClick: () => {}
+        }
+      ]
+    });
   }
   return (
     <div>
       {sorted.length ?
-        <table>
+        <table className='w-full'>
           <thead>
             <tr>
               {cols.map((col, colIndex) =>

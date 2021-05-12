@@ -9,7 +9,7 @@ export default function Challenge(props) {
   const { challenge } = props
   return (
     <div>
-      <div>
+      <div className='truncate'>
         Tier {challenge.tier}: {challenge.challenge}
       </div>
       <Notes {...props} />

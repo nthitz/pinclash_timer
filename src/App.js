@@ -46,10 +46,10 @@ function App() {
     }
   }
   return (
-    <div className="App text-center">
-      <div className='flex justify-center items-center'>
-        <img src={pinclashLogo} alt='Pinclash' className='h-40' />
-        <img src={eventLogo} className='h-28' alt='Avengers' />
+    <div className="App text-center p-1">
+      <div className='flex justify-evenly items-center'>
+        <img src={pinclashLogo} alt='Pinclash' className='h-32' />
+        <img src={eventLogo} className='h-20' alt='Avengers' />
       </div>
       {
         user ?

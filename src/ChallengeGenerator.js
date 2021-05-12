@@ -5,17 +5,6 @@ import { shuffle } from 'd3-array'
 import classNames from "classnames"
 import { RefreshIcon } from '@heroicons/react/solid'
 
-const emojis = {
-  1: '1️⃣',
-  2: '2️⃣',
-  3: '3️⃣',
-  4: '4️⃣',
-  5: '5️⃣',
-  6: '6️⃣',
-  7: '7️⃣',
-  8: '8️⃣',
-  9: '9️⃣',
-}
 export default function ChallengeGenerator(props) {
   const { challenges, setSelectedChallengeId } = props
 
@@ -67,7 +56,7 @@ export default function ChallengeGenerator(props) {
     const oneLeft = shuffledChallenges.length === 1
     const duration = oneLeft ? 1 : 7.5 * 1000
     const delay = oneLeft ? 1 : 2000
-
+    setSelectedChallengeId(null)
     new TWEEN.Tween({ index: 0 }).to({index: random}, duration)
       .easing(TWEEN.Easing.Quintic.InOut)
       .onUpdate(({index}) => setGeneratorChallengeIndex(Math.round(index) % shuffledChallenges.length))
@@ -89,12 +78,12 @@ export default function ChallengeGenerator(props) {
     setRespin(false)
     spin()
   }
-  let selectedChallengeInfo = <div>&nbsp;</div>
+  let selectedChallengeInfo = null
   if (generatorChallengeIndex !== null) {
     const selectedChallenge = shuffledChallengesToConsider[generatorChallengeIndex]
     const { tier, challenge } = selectedChallenge
     selectedChallengeInfo = (
-      <div className='m-2'>
+      <div className='m-2 truncate'>
         Tier {tier}: {challenge}
       </div>
     )
@@ -128,21 +117,23 @@ export default function ChallengeGenerator(props) {
           const selected = selectedTiers.includes(tier)
           return <span
               key={tier}
-              className={classNames('cursor-pointer p-2 m-1 rounded-md', {'bg-green-800': selected, 'opacity-40': !selected })}
+              className={classNames('cursor-pointer w-1 py-2 px-3.5 m-1 rounded-md', {'bg-green-800': selected, 'opacity-40': !selected })}
               onClick={toggleTier(tier)}
             >
-              {emojis[tier]}
+              {tier}
             </span>
         })}
       </div>
 
-      {selectedChallengeInfo}
-      <button onClick={spin} disabled={spinning}>spin</button>
-      <div>
-        Remaining: {challengesToConsider.length}
-        <RefreshIcon onClick={resetPicked} className="inline-block cursor-pointer h-5 w-5 text-black-500 hover:text-red-500"/>
+      <div className='flex justify-evenly items-center'>
+        <button onClick={spin} disabled={spinning}>spin</button>
+        <div>
+          Remaining: {challengesToConsider.length}
+          <RefreshIcon onClick={resetPicked} className="inline-block cursor-pointer h-5 w-5 text-black-500 hover:text-red-500"/>
+        </div>
       </div>
       <audio src={soundEffect} ref={soundEffectRef}/>
+      {selectedChallengeInfo}
 
     </div>
   )
