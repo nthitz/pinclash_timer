@@ -1,5 +1,6 @@
 
-= Pinclash Challenge Generator
+# Pinclash Challenge Generator
+
 
 https://pinclash-timer.web.app
 
