@@ -54,8 +54,7 @@ function App() {
       {
         user ?
         <div>
-          <PinclashTimer user={user} />
-          <button onClick={logout}>log out</button>
+          <PinclashTimer user={user} logout={logout} />
         </div>
         : <div id="firebaseui-auth-container"></div>
       }
