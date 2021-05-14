@@ -22,7 +22,7 @@ export default function Challenge(props) {
   }
   return (
     <div>
-      <textarea className='container text-center border-0 focus:border hover:border h-8 p-1' placeholder='no notes for this challenge'  value={notes} onBlur={submit} onChange={e => setLocalNotes(e.target.value)}></textarea>
+      <textarea className='container text-center border-0 focus:border hover:border h-8 p-1' placeholder='add some notes here...'  value={notes} onBlur={submit} onChange={e => setLocalNotes(e.target.value)}></textarea>
     </div>
   )
 }
