@@ -6,7 +6,7 @@ export default function ChallengeList(props) {
   const { challenges, selectedChallengeId, setSelectedChallengeId} = props
   const groupedByTiers = Array.from(group(challenges, d => d.tier)).sort((a, b) => a[0] - b[0])
 
-  const [viewChallenges, setViewChallenges] = useState(false)
+  const [viewChallenges, setViewChallenges] = useState(true)
 
   const toggleChallenges = () => {
     setViewChallenges(!viewChallenges)

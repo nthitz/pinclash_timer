@@ -47,9 +47,9 @@ export default function PinclashTimer(props) {
       }
 
       <div className={classNames('w-full h-full absolute top-0 left-0 bg-black', { hidden: !configVisible })} >
-        <ChallengeList challenges={challenges} selectedChallengeId={selectedChallengeId} setSelectedChallengeId={setSelectedChallengeId} />
         <button onClick={logout}>log out</button>
 
+        <ChallengeList challenges={challenges} selectedChallengeId={selectedChallengeId} setSelectedChallengeId={setSelectedChallengeId} />
       </div>
     </div>
   )

@@ -7,9 +7,32 @@ import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 
 const cols = [
-  { label: 'Time', field: 'timestamp', sort: (a, b) => b.timestamp - a.timestamp, format: v => format(v, 'Pp') },
-  { label: 'Date', field: 'time', sort: (a, b) => a.time - b.time, format: v => format(addMilliseconds(new Date(0), v), 'mm:ss.S') },
+  { label: 'Date', field: 'timestamp', sort: (a, b) => b.timestamp - a.timestamp, format: v => format(v, 'Pp') },
+  { label: 'Time', field: 'time', sort: (a, b) => a.time - b.time, format: v => format(addMilliseconds(new Date(0), v), 'mm:ss.S') },
+  { label: 'Points', field: 'time', sort: (a, b) => a.time - b.time, format: v => getScoreForTime(v) },
 ]
+
+const points = []
+for (let p = 60, i = 0; p >= 0; p -= 5, i++) {
+  points.push({
+    score: p,
+    time: 30 * 1000 * (i + 1),
+  })
+}
+
+function getScoreForTime(time) {
+  let score = null
+  points.forEach(value => {
+    if (score === null && time < value.time) {
+      score = value.score
+    }
+  })
+  if (score === null) {
+    score = points[points.length - 1].score
+  }
+  return score
+}
+
 export default function Times(props) {
   const { challenge, user } = props
   const [times, setTimes] = useState([])
