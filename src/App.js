@@ -9,8 +9,7 @@ import PinclashTimer from './PinclashTimer'
 import pinclashLogo from './media/PinClashLarge.png'
 import eventLogo from './media/AIQ_logo.png'
 import classNames from 'classnames';
-import { XIcon } from '@heroicons/react/solid'
-
+import TOC from './TOC'
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 
 import {
@@ -51,6 +50,9 @@ function App() {
       }
     }
   }
+
+  const [obsHelpVisible, setObsHelpVisible] = useState(false)
+  const toggleOBSHelp = () => setObsHelpVisible(c => !c)
   return (
     <div className="App text-center p-1">
       <div className='flex justify-evenly items-center'>
@@ -60,17 +62,7 @@ function App() {
       <Router>
         <Switch>
           <Route path='/toc'>
-            <div>
-            <Link to='/'><XIcon className="absolute top-10 right-10 cursor-pointer h-10 w-10 text-black-500 hover:text-blue-500" /></Link>
-              <p className='my-2'>Terms and Conditions</p>
-              <p className='max-w-2xl mx-auto my-2'>
-                The Pinclash Timer and all subsequent features (the product) is provided without warranty and with no guarentees of reliability. Data may be wiped at any time.
-              </p>
-              <p className='max-w-2xl mx-auto my-2'>
-                The product is provided free of charge to users who are not in the IFPA Top 100 as of May 1st 2021. Users ranked in the IFPA Top 100 must venmo @Nick-Yahnke $50 before they are authorized to use this product. By using this product, you agree that you are either not in the IFPA Top 100 or you have sent $50 to @Nick-Yahnke. Failure to abide by these Terms may result in a revocation of services at any time.
-              </p>
-              <Link to='/'><button className='cursor-pointer'>Back</button></Link>
-            </div>
+            <TOC />
 
           </Route>
           <Route path="/">
@@ -84,6 +76,20 @@ function App() {
                 <input type='checkbox' checked={tocChecked} onChange={e => setTocChecked(c => !c)} /> I agree to the <Link className='underline' to="/toc">Terms And Conditions</Link>
                 <div className={classNames({ hidden: !tocChecked })}>
                   <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
+
+
+                  <button onClick={toggleOBSHelp}>Trouble Logging in with OBS?</button>
+                  <div className={classNames('max-w-lg mx-auto my-2', { hidden: !obsHelpVisible })}>
+                    You'll likely need to configure the "user-agent" parameter that the OBS Browser Source uses to interact with the web. Some details <a className='underline' href="https://obsproject.com/forum/threads/problem-with-logging-into-my-google-account-through-the-dock-panel.114376/#lg=post-498684&slide=0">here</a>
+                    {' '}
+                    <a className='underline' href="https://obsproject.com/forum/threads/browser-source-this-browser-or-app-may-not-be-supported-fail-to-log-into-my-google-account.128863/">and here</a>{' '}
+                    {' '}<a className='underline' href="
+                    https://obsproject.com/forum/threads/problem-with-logging-into-my-google-account-through-the-dock-panel.114376/">also here</a>
+
+                    <br /><br />
+
+                    Once added as a browser source, right click the source and select "Interact" to ...
+                  </div>
                 </div>
               </div>
             }
