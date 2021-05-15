@@ -43,7 +43,8 @@ function App() {
     signInOptions: [
       // List of OAuth providers supported.
       firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-    ],
+      firebase.auth.EmailAuthProvider.PROVIDER_ID,
+   ],
     callbacks: {
       signInSuccess: () => {
         return false
