@@ -1,28 +1,46 @@
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { db } from './firebase'
 import { pinclashEvent } from './PinclashTimer'
 import TWEEN from '@tweenjs/tween.js'
-import useAnimationFrame from 'use-animation-frame'
+
+function now() {
+  return window.performance && window.performance.now ? window.performance.now() : Date.now()
+}
+
 export default function Timer(props) {
   const { user, challenge } = props
 
   const [running, setRunning] = useState(false)
 
-  const now = Date.now()
-
-  const [lastTime, setLastTime] = useState(now)
+  const [lastTime, setLastTime] = useState(now())
   const [elapsedTime, setElapsedTime] = useState(0)
   const [submitted, setSubmitted] = useState(false)
 
-  useAnimationFrame(() => {
-    TWEEN.update()
-    const now = Date.now()
-    if (running) {
-      setElapsedTime(t => t + (now - lastTime))
+  useEffect(() => {
+    setRunning(false)
+    setSubmitted(false)
+    setElapsedTime(0)
+
+  }, [challenge])
+
+
+  useEffect(() => {
+    let rafId = null
+    const update = () => {
+      rafId = window.requestAnimationFrame(update)
+      TWEEN.update()
+      const time = now()
+
+      const delta = time - lastTime
+      if (running) {
+        setElapsedTime(t => t + delta)
+      }
+      setLastTime(now)
     }
-    setLastTime(now)
-  }, [running, lastTime])
+    rafId = requestAnimationFrame(update)
+    return () => cancelAnimationFrame(rafId)
+  }, [lastTime, running])
 
   const toggle = () => {
     setRunning(!running)
