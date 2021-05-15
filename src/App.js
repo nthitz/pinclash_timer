@@ -1,15 +1,17 @@
 // Firebase App (the core Firebase SDK) is always required and must be listed first
 // import { initializeApp } from 'firebase/app';
 // Firebase App (the core Firebase SDK) is always required and must be listed first
-import { firebase, firebaseui } from './firebase'
+import { firebase } from './firebase'
 import './App.scss';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 
 import PinclashTimer from './PinclashTimer'
 import pinclashLogo from './media/PinClashLarge.png'
 import eventLogo from './media/AIQ_logo.png'
 import classNames from 'classnames';
 import { XIcon } from '@heroicons/react/solid'
+
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 
 import {
   BrowserRouter as Router,
@@ -21,30 +23,13 @@ import {
 function App() {
   const [user, setUser] = useState(null)
   const [tocChecked, setTocChecked] = useState(false)
-  const signInUi = useRef()
+
   useEffect(() => {
-    firebase.auth().onAuthStateChanged(function(user) {
+    const unregisterAuthObserver = firebase.auth().onAuthStateChanged(user => {
       setUser(user)
-      if (!user) {
-        if (!signInUi.current) {
-          const ui = new firebaseui.auth.AuthUI(firebase.auth())
-          ui.start('#firebaseui-auth-container', {
-            signInOptions: [
-              // List of OAuth providers supported.
-              firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-            ],
-            callbacks: {
-              signInSuccess: () => {
-                return false
-              }
-            }
-            // Other config options...
-          });
-          signInUi.current = ui
-        }
-      }
     });
-  }, [])
+    return () => unregisterAuthObserver(); // Make sure we un-register Firebase observers when the component unmounts.
+  }, []);
 
   const logout = async () => {
     try {
@@ -52,6 +37,18 @@ function App() {
       // signed out
     } catch (e){
      // an error
+    }
+  }
+
+  const uiConfig = {
+    signInOptions: [
+      // List of OAuth providers supported.
+      firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+    ],
+    callbacks: {
+      signInSuccess: () => {
+        return false
+      }
     }
   }
   return (
@@ -85,8 +82,8 @@ function App() {
               :
               <div>
                 <input type='checkbox' checked={tocChecked} onChange={e => setTocChecked(c => !c)} /> I agree to the <Link className='underline' to="/toc">Terms And Conditions</Link>
-                  <div className={classNames({ hidden: !tocChecked })}>
-                  <div id="firebaseui-auth-container"></div>
+                <div className={classNames({ hidden: !tocChecked })}>
+                  <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
                 </div>
               </div>
             }

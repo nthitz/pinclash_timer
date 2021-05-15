@@ -8,9 +8,6 @@ import "firebase/auth";
 import "firebase/firestore";
 import firebaseConfig from './firebaseConfig'
 
-import * as firebaseui from 'firebaseui'
-import 'firebaseui/dist/firebaseui.css'
-
 
 console.log(firebase)
 firebase.initializeApp(firebaseConfig);
@@ -18,6 +15,5 @@ var db = firebase.firestore();
 
 export {
   firebase,
-  firebaseui,
   db,
 }
