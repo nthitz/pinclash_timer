@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 
 import PinclashTimer from './PinclashTimer'
 import pinclashLogo from './media/PinClashLarge.png'
-import eventLogo from './media/AIQ_logo.png'
+import eventLogo from './media/GZ_Logo.png'
 import classNames from 'classnames';
 import TOC from './TOC'
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';

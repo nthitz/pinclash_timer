@@ -31,7 +31,7 @@ export default function PinclashTimer(props) {
 
     }
     fetch()
-    initChallenges()
+    // initChallenges() // you likely need to adjust firebase firestore usage permissions to allow this
   }, [])
 
   const toggleConfig = () => {

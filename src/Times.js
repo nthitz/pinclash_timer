@@ -13,10 +13,17 @@ const cols = [
 ]
 
 const points = []
-for (let p = 60, i = 0; p >= 0; p -= 5, i++) {
+for (let p = 30, i = 0; p >= 0; p -= 5, i++) {
+  let time = i === 0 ? 30 * 1000 :
+    i === 1 ? 60 * 1000 :
+    i === 2 ? 120 * 1000 :
+    i === 3 ? 180 * 1000 :
+    240 * 1000
+
   points.push({
     score: p,
-    time: 30 * 1000 * (i + 1),
+    time
+    // time: 30 * 1000 * (i + 1),
   })
 }
 
