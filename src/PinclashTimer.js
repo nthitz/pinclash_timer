@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-// import initChallenges from './initChallenges'
+import initChallenges from './initChallenges'
 import { db } from './firebase'
 
 import Challenge from './Challenge'
@@ -7,7 +7,7 @@ import ChallengeGenerator from './ChallengeGenerator'
 import ChallengeList from './ChallengeList'
 import classNames from 'classnames'
 import { CogIcon } from '@heroicons/react/solid'
-export const pinclashEvent = 'avengers'
+export const pinclashEvent = 'godzilla'
 export default function PinclashTimer(props) {
   const { user, logout } = props
   console.log(user)
@@ -31,7 +31,7 @@ export default function PinclashTimer(props) {
 
     }
     fetch()
-    // initChallenges()
+    initChallenges()
   }, [])
 
   const toggleConfig = () => {
